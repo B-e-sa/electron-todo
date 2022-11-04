@@ -1,48 +1,45 @@
+import { useEffect, useState } from 'react'
 import './App.css'
+import Notes from './components/Notes'
+import newTodo from './utils/newTodo'
+import INote from './interfaces/INote'
 
 const App = (): JSX.Element => {
-  const todos: {
-    title: string,
-    content: string,
-    color: string
-  }[] = [{
-    title: "TITULO",
-    content: "CONTEUDO",
-    color: "yellow"
-  },
-  {
-    title: "titulo",
-    content: "conteudo",
-    color: "blue"
-  }]
+
+  const [todos, setTodos] = useState([{
+    title: "Title",
+    content: "Content",
+    isChangingColor: false,
+    color: "#F0EC84"
+  }])
+
+  useEffect(() => {
+
+    if (localStorage.getItem('todos')) {
+      const savedTodos = localStorage?.getItem('todos')
+      setTodos(JSON.parse(String(savedTodos)))
+    } else {
+      const defaultNote: INote[] = [{
+        title: "Title",
+        content: "Content",
+        isChangingColor: false,
+        color: "#F0EC84"
+      }]
+
+      setTodos(defaultNote)
+    }
+  }, [])
 
   return (
     <div>
       <div id="notes">
-        {todos.map((item) => {
-          return (
-            <div className="note">
-              <input
-                type="text"
-                max={10}
-                defaultValue={item.title}
-                name="note title"
-                onChange={(e) => {
-                  item.title = e.target.value
-                }}
-              />
-              <textarea
-                defaultValue={item.content}
-                name="note content area"
-                cols={30}
-                rows={10}
-                onChange={(e) => {
-                  item.content = e.target.value
-                }}
-              ></textarea>
-            </div>
-          )
-        })}
+        <Notes props={[todos, setTodos]} />
+        <div
+          id='add-note'
+          onClick={() => newTodo(todos, setTodos)}
+        >
+          <button> + </button>
+        </div>
       </div>
     </div>
   )

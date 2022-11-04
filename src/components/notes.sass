@@ -1,0 +1,70 @@
+.note
+    margin-right: 15px
+    margin-bottom: 15px
+    padding: 10px
+    width: 330px
+    height: 360px
+    background-color: #F0EC84
+    color: black
+
+    #note-header
+        padding-bottom: 10px
+        position: relative
+        display: flex
+        align-items: center
+        border-bottom: 1px solid black
+
+    input
+        width: 99%
+        background: transparent
+        color: black
+        border: none
+
+        &:focus-visible
+            outline: none
+
+    textarea
+        padding-top: 10px
+        background-color: transparent
+        border: none
+
+        &:focus-visible
+            outline: none
+
+#button-container
+    display: flex
+
+    #other-colors-container
+        @for $i from 1 through 5
+            button:nth-child(#{$i})
+                cursor: pointer
+
+#close-and-color-buttons
+    display: flex
+
+    button:nth-child(1)
+        cursor: pointer
+        border: 1px solid gray
+        border-radius: 100%
+        width: 25px
+        height: 25px
+
+    button:nth-child(2)
+        border: none
+        background-color: transparent
+        cursor: pointer
+        border-radius: 100%
+        width: 25px
+        height: 25px
+
+#other-colors-container
+    display: flex
+    height: fit-content
+
+    button
+        margin-right: 5px
+        background-color: transparent
+        border-radius: 100%
+        border: 1px solid gray
+        width: 25px
+        height: 25px
