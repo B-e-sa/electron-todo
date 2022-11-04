@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import './App.css'
+import './App.sass'
 import Notes from './components/Notes'
 import newTodo from './utils/newTodo'
 import INote from './interfaces/INote'

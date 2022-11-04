@@ -1,19 +1,26 @@
-import { useEffect, useState } from "react"
+import { MouseEventHandler, useEffect, useState } from "react"
+import INote from "../interfaces/INote"
+import TSetState from "../interfaces/TSetState"
 import newTodo from "../utils/newTodo"
 import './notes.sass'
 
-const Notes = (props: any): JSX.Element => {
+const Notes = (props: {
+    props: [INote[], TSetState]
+}): JSX.Element => {
 
     const [componentWasAttualized, setComponentWasAttualized] = useState(0)
 
-    const handleColorClick = (target: any, e: any) => {
+    const handleColorClick = (target: {
+        color: string;
+        isChangingColor: boolean
+    }, e: any) => {
         target.color = e.target.style.backgroundColor
         target.isChangingColor = false
         props.props[1]([...props.props[0]])
         localStorage.setItem('todos', JSON.stringify(props.props[0]))
     }
 
-    const createButton = (item: any) => {
+    const handleButtons = (func: MouseEventHandler<HTMLButtonElement> | undefined) => {
 
         const colors = [
             '#f08484',
@@ -24,20 +31,20 @@ const Notes = (props: any): JSX.Element => {
 
         const buttons = []
 
-        for (let i = 0; i < 4; i++) {
-            buttons.push(
-                <button 
-                style={{backgroundColor: colors[i]}}
-                >
-
-                </button>
-            )
+        for (let i = 0; i < colors.length; i++) {
+            buttons.push(<button
+                style={{ backgroundColor: colors[i] }}
+                onClick={func}
+            ></button>)
         }
+
+        return buttons
+
     }
 
     return (
         <>
-            {props.props[0]?.map((item: any) => {
+            {props.props[0]?.map((item: INote) => {
                 return (
                     <div className="note" style={{
                         backgroundColor: item.color
@@ -53,10 +60,7 @@ const Notes = (props: any): JSX.Element => {
                             <div id="button-container">
                                 {item.isChangingColor === true &&
                                     <div id="other-colors-container">
-                                        <button style={{ backgroundColor: '#f08484' }} onClick={(e) => handleColorClick(item, e)}></button>
-                                        <button style={{ backgroundColor: '#8df084' }} onClick={(e) => handleColorClick(item, e)}></button>
-                                        <button style={{ backgroundColor: '#8b84f0' }} onClick={(e) => handleColorClick(item, e)}></button>
-                                        <button style={{ backgroundColor: '#84f0d5' }} onClick={(e) => handleColorClick(item, e)}></button>
+                                        {handleButtons((e) => handleColorClick(item, e))}
                                     </div>
                                 }
                                 <div id="close-and-color-buttons">
